@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cone Council</title>
+  <link rel="icon" href="logo.png">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-image: url("cone.png");
+      background-repeat: repeat;
+      background-size: 256px 256px; /* controls tile size */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .window {
+      width: 450px;
+      height: 450px;
+      background: #f5f5f5;
+      border: 2px solid #888;
+      box-shadow: 0 10px 30px rgba(255,10,0,0.4);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .titlebar {
+      background: linear-gradient(to right, #FF6A00, #FF9A00);
+      color: white;
+      padding: 8px;
+      font-weight: bold;
+    }
+
+    .content {
+      padding: 10px;
+    }
+
+    /* TABS */
+    .tabs {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+
+    .tabs button {
+      flex: 1;
+      padding: 5px;
+      cursor: pointer;
+    }
+
+    .tab {
+      display: none;
+    }
+
+    /* DASHBOARD GRID */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .panel {
+      background: #ffffff;
+      border: 1px solid #aaa;
+      padding: 8px;
+      box-shadow:
+        inset 2px 2px 5px rgba(0, 0, 0, 0.25),
+        inset -2px -2px 5px rgba(255, 255, 255, 0.8);
+      height: 157px;
+    }
+
+    /* FORM */
+    label {
+      font-size: 14px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      margin-top: 4px;
+      margin-bottom: 10px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 8px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="window">
+
+  <div class="titlebar">The Cone Council Website</div>
+
+  <div class="content">
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button onclick="showTab('main')">Main</button>
+      <button onclick="showTab('calender')">Calender</button>
+      <button onclick="showTab('anon')">Anon_Chat</button>
+      <button onclick="showTab('report')">Report</button>
+    </div>
+
+    <!-- MAIN DASHBOARD -->
+    <div id="main" class="tab">
+      <div class="grid">
+
+        <div class="panel">
+
+        </div>
+
+        <div style="zoom: 0.5; transform-origin: top left; width: 100%;">
+                <iframe 
+                    src="https://discord.com/widget?id=1366267102461427722&theme=dark"
+                    width="100%" 
+                    height="350"
+                    frameborder="0"
+                    style="display:block;">
+                </iframe>
+        </div>
+
+        <div class="panel" style="zoom: 0.75; transform-origin: top left; width: 145%; height: 214.5px;">
+          <h3 style="margin-top: 4px; margin-bottom: 4px;">News</h3>
+          <div id="newsBox"
+              style="width: 100%; height: 700; frameborder: 0; display:block;">
+          </div>
+        </div>
+
+        <div class="panel" style="width: 80px; position: relative; left: 115px;">
+          <h3 style="font-size: 15px; margin-bottom: 4px;">Games</h3>
+          <div id="gamesBox" style="font-size: 10px;"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="calender" class="tab">
+      <h3 style="margin-bottom: 4px">Calender</h3>
+
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <button onclick="changeMonth(-1)">⬅</button>
+        <h3 id="monthLabel"></h3>
+        <button onclick="changeMonth(1)">➡</button>
+      </div>
+
+      <div id="calendarGrid"
+            style="display:grid;
+                grid-template-columns:repeat(7,1fr);
+                gap:1px;
+                margin-top:4px;
+                font-size:12px;">
+      </div>
+
+      <div id="eventPanel" style="display:none; margin-top:4px; padding:10px; border:1px solid #333; height:95px;">
+        <h4 id="selectedDateLabel" style="font-size: 12px; margin-bottom:4px;"></h4>
+        <input id="eventText" placeholder="Event name" style="width:200px">
+        <button onclick="saveEvent()">Save</button>
+      </div>
+    </div>
+
+    <!-- ANON CHAT TAB -->
+    <div id="anon" class="tab">
+        <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+  
+          <h3 style="margin:0;">Anon Chat</h3>
+
+          <label style="
+            display:inline-flex;
+            align-items:center;
+            gap:2px;
+            cursor:pointer;
+            font-size:13px;
+            white-space:nowrap;
+            margin:0;
+          ">
+            <input type="checkbox" id="discordToggle" style="margin:0;" checked>
+            <span>Cordless Mode</span>
+          </label>
+
+        </div>
+        <p style="font-size: 15px;">
+        (This is currently still in the works, this will be better in the future)
+        </p>
+
+        <div id="anonChatBox" style="height:225px; overflow-y:auto; border:1px solid #333; padding:8px; margin-bottom:10px;"></div>
+
+        <input type="text" id="anonInput" placeholder="Say something..." style="width: 350px;"/>
+        <button onclick="sendAnon()">Send</button>
+    </div>
+
+    <!-- REPORT TAB -->
+    <div id="report" class="tab">
+
+      <h2>Submit A Report</h2>
+
+      <label>Recommended Code:</label>
+      <select id="code">
+        <option value="purple">🟣 CODE PURPLE</option>
+        <option value="blue">🔵 CODE BLUE</option>
+        <option value="green">🟢 CODE GREEN</option>
+        <option value="yellow">🟡 CODE YELLOW</option>
+        <option value="orange">🟠 CODE ORANGE</option>
+        <option value="red">🔴 CODE RED</option>
+        <option value="black">⚫ DEATH SENTENCE</option>
+        <option value="white">⚪ RESIGNATION</option>
+        <option value="brown">🟤 CODE BROWN</option>
+      </select>
+
+      <label>Date and Time of Offence:</label>
+      <button onclick="setNow()">NOW</button>
+      <input type="text" id="datetime">
+
+      <label>Seriousness:</label>
+      <select id="seriousness">
+        <option value="low" selected>low</option>
+        <option value="med">med</option>
+        <option value="high">high</option>
+        <option value="extreme">extreme</option>
+      </select>
+
+      <label>What did the offender do:</label>
+      <textarea id="details" rows="4"></textarea>
+
+      <button class="submit-btn" onclick="sendMessage()">Submit Report</button>
+
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  setDoc,
+  getDoc,
+  getDocs,
+  doc,
+  query,
+  orderBy,
+  onSnapshot
+} from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
+
+// YOUR FIREBASE CONFIG
+const firebaseConfig = {
+  apiKey: "AIzaSyBb7jFUxQZoyZEypndvRv7rDYfwNHhfcrg",
+  authDomain: "theconecouncil.firebaseapp.com",
+  projectId: "theconecouncil",
+  storageBucket: "theconecouncil.firebasestorage.app",
+  messagingSenderId: "470783433143",
+  appId: "1:470783433143:web:4d887484c6c7acab6b7032"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+onSnapshot(doc(db, "games", "main"), (snap) => {
+  const container = document.getElementById("gamesBox");
+  container.innerHTML = "";
+
+  if (snap.exists()) {
+    const games = snap.data().links;
+
+    games.forEach(g => {
+      container.innerHTML += `
+        <a href="${g.url}" target="_blank">${g.name}</a><br>
+      `;
+    });
+  }
+});
+
+onSnapshot(doc(db, "news", "main"), (snap) => {
+  if (snap.exists()) {
+    document.getElementById("newsBox").innerText = snap.data().content;
+  }
+});
+    
+// random anon user id
+const user = "CONEID#" + Math.floor(Math.random() * 9999);
+
+document.getElementById("anonInput").addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    sendAnon();
+  }
+});
+
+// SEND MESSAGE
+window.sendAnon = async function () {
+const discordDisabled = document.getElementById("discordToggle").checked;
+  const input = document.getElementById("anonInput");
+  const text = input.value.trim();
+  if (!text) return;
+
+  try {
+    await addDoc(collection(db, "messages"), {
+      text,
+      user,
+      time: Date.now()
+    });
+  } catch (err) {
+    console.error("Firebase send failed:", err);
+  }
+
+  try {
+    if (discordDisabled) {
+        return;
+        input.value = "";
+    }
+    fetch("https://discord.com/api/webhooks/1492308975314669568/5qUrG8NfbJteUXJYS-_4BtGLHoTh5IHWWPEUTch6h0k7vK41V7osJoyV428drIsKilsF", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        content: `**${user}**: ${text}`
+      })
+    });
+  } catch (err) {
+    console.error("Discord send failed:", err);
+  }
+
+  input.value = "";
+};
+    
+let current = new Date();
+let selectedDate = null;
+let events = {};
+
+// -------------------- LOAD ALL EVENTS --------------------
+async function loadEvents() {
+  const snap = await getDocs(collection(db, "calendar"));
+
+  events = {};
+
+  snap.forEach(d => {
+    events[d.id] = d.data().text;
+  });
+
+  renderCalendar();
+}
+
+// -------------------- RENDER CALENDAR --------------------
+function renderCalendar() {
+  const grid = document.getElementById("calendarGrid");
+  grid.innerHTML = "";
+
+  const year = current.getFullYear();
+  const month = current.getMonth();
+
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+
+  document.getElementById("monthLabel").innerText =
+    current.toLocaleString('default', { month: 'long' }) + " " + year;
+
+  // empty slots
+  for (let i = 0; i < firstDay.getDay(); i++) {
+    grid.innerHTML += `<div></div>`;
+  }
+
+  for (let day = 1; day <= lastDay.getDate(); day++) {
+    const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+
+    const eventText = events[dateStr] ? "📌" : "";
+
+    grid.innerHTML += `
+      <div onclick="selectDay('${dateStr}')"
+           style="border:1px solid #555; padding:3px; width: 20px; height:20px; cursor:pointer;">
+        <b>${day}</b><br>
+        ${eventText}
+      </div>
+    `;
+  }
+}
+
+// -------------------- SELECT DAY --------------------
+window.selectDay = async function(date) {
+  selectedDate = date;
+
+  document.getElementById("eventPanel").style.display = "block";
+  document.getElementById("selectedDateLabel").innerText = date;
+
+  // reset input first
+  document.getElementById("eventText").value = "";
+
+  try {
+    const snap = await getDoc(doc(db, "calendar", date));
+
+    if (snap.exists()) {
+      document.getElementById("eventText").value = snap.data().text;
+    }
+  } catch (err) {
+    console.error("Failed to load event:", err);
+  }
+};
+
+// -------------------- SAVE EVENT --------------------
+window.saveEvent = async function() {
+  const text = document.getElementById("eventText").value;
+
+  if (!selectedDate) return;
+
+  await setDoc(doc(db, "calendar", selectedDate), {
+    text
+  });
+
+  await loadEvents();
+};
+
+// -------------------- MONTH SWITCH --------------------
+window.changeMonth = function(dir) {
+  current.setMonth(current.getMonth() + dir);
+  renderCalendar();
+};
+
+// -------------------- INIT --------------------
+loadEvents();
+    
+function showTab(tabName) {
+  const tabs = document.querySelectorAll(".tab");
+  tabs.forEach(t => t.style.display = "none");
+
+  document.getElementById(tabName).style.display = "block";
+}
+
+// LIVE CHAT LISTENER
+const q = query(collection(db, "messages"), orderBy("time"));
+
+onSnapshot(q, (snapshot) => {
+  const box = document.getElementById("anonChatBox");
+  if (!box) return;
+
+  box.innerHTML = "";
+
+  snapshot.forEach(doc => {
+    const m = doc.data();
+
+    box.innerHTML += `
+      <div>
+        <b style="color:#00ff88">${m.user}:</b> ${m.text}
+      </div>
+    `;
+  });
+
+  box.scrollTop = box.scrollHeight;
+});
+
+function startPresence() {
+  setInterval(() => {
+    setDoc(doc(db, "presence", user), {
+      lastSeen: Date.now()
+    });
+  }, 5000);
+}
+
+async function checkActiveUsers() {
+  const snapshot = await getDocs(collection(db, "presence"));
+
+  let active = 0;
+  const now = Date.now();
+
+  snapshot.forEach(d => {
+    const data = d.data();
+    if (now - data.lastSeen < 15000) {
+      active++;
+    }
+  });
+
+  return active;
+}
+
+let emptySince = null;
+
+async function clearIfEmpty() {
+  const activeUsers = await checkActiveUsers();
+
+  if (activeUsers === 0 && snapshotReady) {
+    if (!emptySince) emptySince = Date.now();
+
+    // wait 30 seconds before clearing
+    if (Date.now() - emptySince > 60000) {
+
+        const msgs = await getDocs(collection(db, "messages"));
+
+        for (const m of msgs.docs) {
+            await deleteDoc(doc(db, "messages", m.id));
+        }
+
+      console.log("Chat cleared after 30s of inactivity");
+      emptySince = null;
+    }
+
+  } else {
+    emptySince = null; // reset timer if someone is online
+  }
+}
+
+function startSystem() {
+  startPresence();
+  setInterval(clearIfEmpty, 10000);
+}
+
+startSystem();
+</script>
+    
+<script>
+    
+async function loadNews() {
+  const res = await fetch("news.txt");
+  const text = await res.text();
+
+  document.getElementById("news-content").innerText = text;
+}
+
+document.addEventListener("DOMContentLoaded", loadNews);
+    
+function showTab(tabName) {
+  const tabs = document.querySelectorAll(".tab");
+  tabs.forEach(t => t.style.display = "none");
+
+  document.getElementById(tabName).style.display = "block";
+}
+
+// default tab
+showTab("main");
+
+function getFormattedDateTime() {
+  const now = new Date();
+  const month = now.getMonth() + 1;
+  const day = now.getDate();
+  let hours = now.getHours();
+  let minutes = now.getMinutes().toString().padStart(2, "0");
+  return `${month}/${day} at ${hours}:${minutes}`;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("datetime").value = getFormattedDateTime();
+});
+
+function setNow() {
+  document.getElementById("datetime").value = getFormattedDateTime();
+}
+
+async function sendMessage() {
+  const webhookURL = "https://discord.com/api/webhooks/1492316627989954762/Cx2JD96Fr7J4fC-RBGrvdOMKEOe1HznTPHKC0NpC8XeKu0rLOz7ZGBVZXwSX3vQPEaNW";
+
+  const payload = {
+    content:
+      `⚠ REPORT SUBMITTED\n` +
+      `Code: ${document.getElementById("code").value}\n` +
+      `Time: ${document.getElementById("datetime").value}\n` +
+      `Seriousness: ${document.getElementById("seriousness").value}\n` +
+      `Details: ${document.getElementById("details").value}`
+  };
+
+  await fetch(webhookURL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  });
+
+  alert("Report sent.");
+}
+</script>
+
+</body>
+</html>
