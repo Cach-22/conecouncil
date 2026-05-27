@@ -12,7 +12,7 @@ async function startMic() {
     document.body.appendChild(audio);
 
   } catch (err) {
-    alert("Microphone blocked or failed:", err);
+    alert(err);
   }
 }
 
