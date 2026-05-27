@@ -1,5 +1,22 @@
-const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+let localStream;
 
+async function startMic() {
+  try {
+    localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    console.log("Mic enabled");
+
+    // optional: test audio playback (self echo)
+    const audio = document.createElement("audio");
+    audio.srcObject = localStream;
+    audio.autoplay = true;
+    document.body.appendChild(audio);
+
+  } catch (err) {
+    console.error("Microphone blocked or failed:", err);
+  }
+}
+
+const stream = localStream
 const pc = new RTCPeerConnection({
   iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
 });
