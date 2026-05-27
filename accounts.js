@@ -29,3 +29,23 @@ if (token) {
       alert("Logged in as " + user.username);
     });
 }
+
+.then(async user => {
+
+  const avatar =
+    `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`;
+
+  document.getElementById("accountBox").innerHTML = `
+    <img src="${avatar}"
+         width="90"
+         style="border-radius:50%;">
+
+    <h3>${user.global_name || user.username}</h3>
+
+    <p>@${user.username}</p>
+
+    <p>ID: ${user.id}</p>
+
+    <button onclick="logout()">Logout</button>
+  `;
+});
