@@ -3,7 +3,7 @@ let localStream;
 async function startMic() {
   try {
     localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    console.log("Mic enabled");
+    alert("Mic enabled");
 
     // optional: test audio playback (self echo)
     const audio = document.createElement("audio");
@@ -12,7 +12,7 @@ async function startMic() {
     document.body.appendChild(audio);
 
   } catch (err) {
-    console.error("Microphone blocked or failed:", err);
+    alert("Microphone blocked or failed:", err);
   }
 }
 
