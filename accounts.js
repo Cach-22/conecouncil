@@ -1,21 +1,15 @@
-window.login = function () {
-  alert("Logging in"); // sanity check
-
+function login() {
   const clientId = "1509046885682249858";
 
   const redirectUri = encodeURIComponent("http://192.168.1.115:8000/");
 
-  const url =
+  window.location.href =
     "https://discord.com/oauth2/authorize" +
     `?client_id=${clientId}` +
-    "&response_type=code" +
+    "&response_type=token" +
     `&redirect_uri=${redirectUri}` +
     "&scope=identify%20email`;
-
-  alert("Redirecting to:", url); // sanity check
-
-  window.location.href = url;
-};
+}
 
 const hash = new URLSearchParams(window.location.hash.substring(1));
 const token = hash.get("access_token");
