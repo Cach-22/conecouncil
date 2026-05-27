@@ -9,7 +9,7 @@ function login() {
     `?client_id=${clientId}` +
     "&response_type=token" +
     `&redirect_uri=${redirectUri}` +
-    "&scope=identify%20email`;
+    "&scope=identify%20email";
 }
 
 window.login = login;
