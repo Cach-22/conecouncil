@@ -1,13 +1,14 @@
 function login() {
   const clientId = "1509046885682249858";
-  const redirect = encodeURIComponent(window.location.origin);
+
+  const redirectUri = encodeURIComponent("http://192.168.1.115:8000/");
 
   window.location.href =
-    `https://discord.com/oauth2/authorize` +
+    "https://discord.com/oauth2/authorize" +
     `?client_id=${clientId}` +
-    `&response_type=token` +
-    `&redirect_uri=${redirect}` +
-    `&scope=identify`;
+    "&response_type=token" +
+    `&redirect_uri=${redirectUri}` +
+    "&scope=identify%20email`;
 }
 
 const hash = new URLSearchParams(window.location.hash.substring(1));
