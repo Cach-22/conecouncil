@@ -1,6 +1,5 @@
 function login() {
   const clientId = "1509046885682249858";
-
   const redirectUri = encodeURIComponent("http://192.168.1.115:8000/");
 
   window.location.href =
@@ -11,6 +10,8 @@ function login() {
     "&scope=identify%20email`;
 }
 
+window.login = login;
+
 const hash = new URLSearchParams(window.location.hash.substring(1));
 const token = hash.get("access_token");
 
@@ -20,9 +21,9 @@ if (token) {
       Authorization: `Bearer ${token}`
     }
   })
-  .then(res => res.json())
-  .then(user => {
-    console.log(user);
-    alert("Logged in as " + user.username);
-  });
+    .then(res => res.json())
+    .then(user => {
+      console.log(user);
+      alert("Logged in as " + user.username);
+    });
 }
