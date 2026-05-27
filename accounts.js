@@ -1,21 +1,27 @@
 function login() {
   const clientId = "1509046885682249858";
-
-  const redirectUri = encodeURIComponent(
-    "http://192.168.1.115:8000/"
-  );
+  const redirect = encodeURIComponent(window.location.origin);
 
   window.location.href =
-    "https://discord.com/oauth2/authorize" +
+    `https://discord.com/oauth2/authorize` +
     `?client_id=${clientId}` +
-    "&response_type=code" +
-    `&redirect_uri=${redirectUri}` +
-    "&scope=identify%20email";
+    `&response_type=token` +
+    `&redirect_uri=${redirect}` +
+    `&scope=identify`;
 }
 
-const params = new URLSearchParams(window.location.search);
-const code = params.get("code");
+const hash = new URLSearchParams(window.location.hash.substring(1));
+const token = hash.get("access_token");
 
-if (code) {
-  console.log("Discord auth code:", code);
+if (token) {
+  fetch("https://discord.com/api/users/@me", {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  .then(res => res.json())
+  .then(user => {
+    console.log(user);
+    alert("Logged in as " + user.username);
+  });
 }
