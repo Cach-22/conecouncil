@@ -28,7 +28,7 @@
 
     .titlebar {
       background: linear-gradient(to right, #FF6A00, #FF9A00);
-      color: white;
+      color: black;
       padding: 8px;
       font-weight: bold;
     }
@@ -94,7 +94,12 @@
       color: white;
     }
 
-    h2, h3, h4, button, p {
+    button {
+      color: white;
+      background-color: #333333;
+    }
+    
+    h2, h3, h4, p {
       color: white;
     }
   </style>
@@ -163,8 +168,8 @@
                 grid-template-columns:repeat(7,1fr);
                 gap:1px;
                 margin-top:4px;
-                font-size:12px;">
-                color: white;
+                font-size:12px;
+                color: white;">
       </div>
 
       <div id="eventPanel" style="display:none; margin-top:4px; padding:10px; border:1px solid #333; height:95px;">
@@ -199,7 +204,7 @@
         (it starts on so to connect to the server turn it off)
         </p>
 
-        <div id="anonChatBox" style="height:225px; overflow-y:auto; border:1px solid #333; padding:8px; margin-bottom:10px;"></div>
+        <div id="anonChatBox" style="height:225px; overflow-y:auto; border:1px solid #333; padding:8px; margin-bottom:10px; color: white;"></div>
 
         <input type="text" id="anonInput" placeholder="Say something..." style="width: 350px;"/>
         <button onclick="sendAnon()">Send</button>
