@@ -1,32 +1,21 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+function login() {
+  const clientId = "1509046885682249858";
 
-import {
-  getAuth,
-  signInWithPopup,
-  GoogleAuthProvider
-} from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
+  const redirectUri = encodeURIComponent(
+    "http://192.168.1.115:8000/"
+  );
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBb7jFUxQZoyZEypndvRv7rDYfwNHhfcrg",
-  authDomain: "theconecouncil.firebaseapp.com",
-  projectId: "theconecouncil",
-  storageBucket: "theconecouncil.firebasestorage.app",
-  messagingSenderId: "470783433143",
-  appId: "1:470783433143:web:4d887484c6c7acab6b7032"
-};
+  window.location.href =
+    "https://discord.com/oauth2/authorize" +
+    `?client_id=${clientId}` +
+    "&response_type=code" +
+    `&redirect_uri=${redirectUri}` +
+    "&scope=identify%20email";
+}
 
-const app = initializeApp(firebaseConfig);
+const params = new URLSearchParams(window.location.search);
+const code = params.get("code");
 
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
-
-window.login = async function () {
-  try {
-    const result = await signInWithPopup(auth, provider);
-
-    alert("Logged in as: " + result.user.displayName);
-
-  } catch(err) {
-    alert(err.message);
-  }
-};
+if (code) {
+  console.log("Discord auth code:", code);
+}
