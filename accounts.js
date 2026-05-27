@@ -14,6 +14,6 @@ window.login = async function() {
     alert("Logged in as: " + result.user.displayName);
 
   } catch(err) {
-    alert(err.message);
+    alert(err);
   }
 }
