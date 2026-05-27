@@ -10,7 +10,7 @@ window.login = function () {
     `&redirect_uri=${redirectUri}` +
     "&scope=identify%20email`;
 
-  console.log("Redirecting to:", url); // sanity check
+  alert("Redirecting to:", url); // sanity check
 
   window.location.href = url;
 };
