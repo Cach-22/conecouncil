@@ -1,4 +1,6 @@
 window.login = function () {
+  alert("Logging in"); // sanity check
+
   const clientId = "1509046885682249858";
 
   const redirectUri = encodeURIComponent("http://192.168.1.115:8000/");
