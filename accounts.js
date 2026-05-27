@@ -1,6 +1,6 @@
 function login() {
-  alert("fixed?")
-  
+  alert("trying");
+
   const clientId = "1509046885682249858";
   const redirectUri = encodeURIComponent("http://192.168.1.115:8000/");
 
@@ -13,7 +13,7 @@ function login() {
 }
 
 window.login = login;
- 
+
 const hash = new URLSearchParams(window.location.hash.substring(1));
 const token = hash.get("access_token");
 
