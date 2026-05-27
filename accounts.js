@@ -27,23 +27,24 @@ if (token) {
 
   .then(res => res.json())
 
-  .then(user => {
+  .then(dcuser => {
 
-    console.log(user);
+    user = dcuser.username;
+    console.log(dcuser);
 
     const avatar =
-      `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`;
+      `https://cdn.discordapp.com/avatars/${dcuser.id}/${dcuser.avatar}.png`;
 
     document.getElementById("accountBox").innerHTML = `
       <img src="${avatar}"
            width="90"
            style="border-radius:50%;">
 
-      <h3>${user.global_name || user.username}</h3>
+      <h3>${dcuser.global_name || dcuser.username}</h3>
 
-      <p>@${user.username}</p>
+      <p>@${dcuser.username}</p>
 
-      <p>ID: ${user.id}</p>
+      <p>ID: ${dcuser.id}</p>
 
       <button onclick="logout()">Logout</button>
     `;
