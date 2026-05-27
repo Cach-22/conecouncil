@@ -251,11 +251,10 @@
     
     <div id="account" class="tab">
       <h2>Account</h2>
-      <button onclick="startMic()">Turn on microphone</button>
-
       <div id="accountBox">
           <button onclick="login()">Login</button>
       </div>
+      <button onclick="startMic()">Turn on microphone</button>
     </div>
   </div>
 </div>
@@ -315,8 +314,7 @@ onSnapshot(doc(db, "news", "main"), (snap) => {
   }
 });
     
-// random anon user id
-const user = "CONEID#" + Math.floor(Math.random() * 9999);
+let user = "CONEID#" + Math.floor(Math.random() * 9999);
 
 document.getElementById("anonInput").addEventListener("keydown", function (e) {
   if (e.key === "Enter") {
