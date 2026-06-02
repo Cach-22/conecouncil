@@ -14,8 +14,6 @@ window.login = login;
 
 const hash = new URLSearchParams(window.location.hash.substring(1));
 const token = hash.get("access_token");
-
-alert(token)
  
 if (token) {
 
